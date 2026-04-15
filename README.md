@@ -1,4 +1,4 @@
-[Dashboard Preview](dashboard/Dashboard_preview.png)
+![Dashboard Preview](DASHBOARD/Dashboard_preview.png)
 
 Ecommerce Sales and Customer Analytics Project
 
