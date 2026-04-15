@@ -1,3 +1,5 @@
+[Dashboard Preview](dashboard/dashboard_preview.png)
+
 Ecommerce Sales and Customer Analytics Project
 
 This project analyzes real world ecommerce transaction data to generate business insights and customer segmentation. The goal is to understand revenue trends, customer behavior, and product performance using Python, SQL, and Power BI.
