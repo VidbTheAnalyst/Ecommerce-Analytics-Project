@@ -1,22 +1,11 @@
 import pandas as pd
 
-# ==============================
-# 1. LOAD CLEANED DATA
-# ==============================
 print("Loading cleaned data...")
 df = pd.read_csv('data/cleaned_data.csv')
 
-# Convert InvoiceDate to datetime
 df['InvoiceDate'] = pd.to_datetime(df['InvoiceDate'])
 
-# ==============================
-# 2. CREATE REFERENCE DATE
-# ==============================
 snapshot_date = df['InvoiceDate'].max() + pd.Timedelta(days=1)
-
-# ==============================
-# 3. CALCULATE RFM METRICS
-# ==============================
 
 rfm = df.groupby('CustomerID').agg({
     'InvoiceDate': lambda x: (snapshot_date - x.max()).days,
@@ -24,7 +13,6 @@ rfm = df.groupby('CustomerID').agg({
     'TotalPrice': 'sum'
 })
 
-# Rename columns
 rfm.rename(columns={
     'InvoiceDate': 'Recency',
     'InvoiceNo': 'Frequency',
@@ -33,10 +21,6 @@ rfm.rename(columns={
 
 print("\nRFM Table:")
 print(rfm.head())
-
-# ==============================
-# 4. RFM SCORING (1–4)
-# ==============================
 
 rfm['R_score'] = pd.qcut(rfm['Recency'], 4, labels=[4, 3, 2, 1])
 rfm['F_score'] = pd.qcut(rfm['Frequency'].rank(method='first'), 4, labels=[1, 2, 3, 4])
@@ -47,10 +31,6 @@ rfm['R_score'] = rfm['R_score'].astype(int)
 rfm['F_score'] = rfm['F_score'].astype(int)
 rfm['M_score'] = rfm['M_score'].astype(int)
 
-# ==============================
-# 5. CREATE RFM SCORE STRING
-# ==============================
-
 rfm['RFM_Score'] = (
     rfm['R_score'].astype(str) +
     rfm['F_score'].astype(str) +
@@ -59,10 +39,6 @@ rfm['RFM_Score'] = (
 
 print("\nRFM Scores:")
 print(rfm.head())
-
-# ==============================
-# 6. CUSTOMER SEGMENTATION
-# ==============================
 
 def segment_customer(row):
     if row['R_score'] == 4 and row['F_score'] == 4 and row['M_score'] == 4:
@@ -82,16 +58,9 @@ def segment_customer(row):
 
 rfm['Segment'] = rfm.apply(segment_customer, axis=1)
 
-# ==============================
-# 7. SEGMENT SUMMARY
-# ==============================
 
 print("\nCustomer Segments Count:")
 print(rfm['Segment'].value_counts())
-
-# ==============================
-# 8. SAVE FINAL DATA
-# ==============================
 
 rfm.to_csv('data/rfm_segmented.csv')
 
