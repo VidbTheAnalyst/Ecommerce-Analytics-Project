@@ -14,14 +14,13 @@ Interactive dashboard using Power BI
 
 Dataset - Online retail dataset containing transactions, customers, products, and countries
 
-Tools and Technologies Used
-
+Tools and Technologies Used - 
 Python
 Pandas
 MySQL
 Power BI
 
-Key Insights
+Key Insights 
 
 Identified high value and low value customers using RFM analysis
 Analyzed monthly revenue trends and sales growth
