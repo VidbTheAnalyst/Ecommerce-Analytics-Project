@@ -26,24 +26,23 @@ IGNORE 1 ROWS;
 USE ecommerce_project;
 
 -- KPI METRICS
--- Total Revenue
 SELECT ROUND(SUM(TotalPrice), 2) AS Total_Revenue
 FROM ecommerce_data;
 
--- Total Orders
+--For Total Orders
 SELECT COUNT(DISTINCT InvoiceNo) AS Total_Orders
 FROM ecommerce_data;
 
--- Total Customers
+--For Total Customers
 SELECT COUNT(DISTINCT CustomerID) AS Total_Customers
 FROM ecommerce_data;
 
--- Average Order Value
+--Claculating Average Order Value
 SELECT 
     ROUND(SUM(TotalPrice) / COUNT(DISTINCT InvoiceNo), 2) AS Avg_Order_Value
 FROM ecommerce_data;
 
--- Monthly Revenue Trend
+--Calculating Monthly Revenue Trend
 SELECT 
     DATE_FORMAT(InvoiceDate, '%Y-%m') AS Month,
     ROUND(SUM(TotalPrice), 2) AS Revenue
@@ -51,7 +50,7 @@ FROM ecommerce_data
 GROUP BY Month
 ORDER BY Month;
 
--- Daily Revenue Trend
+--Calculating Daily Revenue Trend
 SELECT 
     DATE(InvoiceDate) AS Date,
     ROUND(SUM(TotalPrice), 2) AS Revenue
@@ -59,7 +58,7 @@ FROM ecommerce_data
 GROUP BY Date
 ORDER BY Date;
 
--- Top 10 Products by Revenue
+--Finding out Top 10 Products by Revenue
 SELECT 
     Description,
     ROUND(SUM(TotalPrice), 2) AS Revenue
@@ -68,7 +67,7 @@ GROUP BY Description
 ORDER BY Revenue DESC
 LIMIT 10;
 
--- Top 10 Products by Quantity Sold
+--Now finding Top 10 Products by Quantity Sold
 SELECT 
     Description,
     SUM(Quantity) AS Total_Quantity
@@ -77,7 +76,7 @@ GROUP BY Description
 ORDER BY Total_Quantity DESC
 LIMIT 10;
 
--- Top 10 Customers by Spending
+-- Top 10 Customers As per their spent amount
 SELECT 
     CustomerID,
     ROUND(SUM(TotalPrice), 2) AS Total_Spent
@@ -86,7 +85,7 @@ GROUP BY CustomerID
 ORDER BY Total_Spent DESC
 LIMIT 10;
 
--- Repeat Customers (More than 1 order)
+-- Repeat Customers calculation
 SELECT 
     CustomerID,
     COUNT(DISTINCT InvoiceNo) AS Orders
@@ -103,7 +102,7 @@ FROM ecommerce_data
 GROUP BY Country
 ORDER BY Revenue DESC;
 
--- Top 5 Countries by Customers
+-- The Top 5 Countries by Customers
 SELECT 
     Country,
     COUNT(DISTINCT CustomerID) AS Customers
@@ -128,7 +127,7 @@ FROM ecommerce_data
 GROUP BY CustomerID
 ORDER BY Total_Orders DESC;
 
--- Average Revenue per Customer
+-- Average Revenue generated per Customer
 SELECT 
     ROUND(SUM(TotalPrice) / COUNT(DISTINCT CustomerID), 2) AS Avg_Revenue_Per_Customer
 FROM ecommerce_data;
